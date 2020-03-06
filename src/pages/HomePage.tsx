@@ -29,7 +29,7 @@ const ActionBarContainer = styled(FlexContainer)`
   }
 `;
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   const size = 'large';
   return (
     <HomeContainer>
@@ -70,4 +70,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;

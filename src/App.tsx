@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './pages/HomePage';
+import HomePage from './pages/HomePage';
 
 const App: React.FC = () => {
   return (
     <Router>
       <Switch>
         <Route path="/" exact>
-          <Home />
+          <HomePage />
         </Route>
       </Switch>
     </Router>
