@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import XChangeButton from '../components/XChangeButton';
 import CurrencyDisplay from '../components/CurrencyDisplay';
+import { useWallet } from '../hooks/WalletHook';
 
 const HomeContainer = styled(FlexContainer)`
   justify-content: center;
@@ -31,10 +32,13 @@ const ActionBarContainer = styled(FlexContainer)`
 
 const HomePage: React.FC = () => {
   const size = 'large';
+  const { wallets, addWallet } = useWallet();
   return (
     <HomeContainer>
       <WalletContainer>
-        <CurrencyDisplay value={60} currency={CurrencyType.USD} />
+        {wallets?.map(wallet => (
+          <CurrencyDisplay value={wallet.value} currency={wallet.currency} />
+        ))}
       </WalletContainer>
       <ActionBarContainer>
         <XChangeButton
@@ -43,6 +47,7 @@ const HomePage: React.FC = () => {
           icon={<PlusOutlined />}
           size={size}
           text={'Add Money'}
+          onClick={() => addWallet('Hello', CurrencyType.USD, 10)}
         />
         <XChangeButton
           type="primary"
