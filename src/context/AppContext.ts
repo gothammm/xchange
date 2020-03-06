@@ -5,6 +5,7 @@ interface WalletType {
   currency: CurrencyType;
   value: number;
   name: string;
+  isPrimary: boolean;
 }
 
 interface AppContextType {

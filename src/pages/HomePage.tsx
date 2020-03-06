@@ -4,7 +4,6 @@ import CurrencyType from '../enums/CurrencyType';
 import styled from 'styled-components';
 import {
   PlusOutlined,
-  InfoCircleOutlined,
   SyncOutlined,
   WalletOutlined,
 } from '@ant-design/icons';
@@ -59,15 +58,8 @@ const HomePage: React.FC = () => {
         <XChangeButton
           type="primary"
           shape="circle"
-          icon={<InfoCircleOutlined />}
-          text={'Details'}
-          size={size}
-        />
-        <XChangeButton
-          type="primary"
-          shape="circle"
           icon={<WalletOutlined />}
-          text={'Wallet'}
+          text={'Wallets'}
           size={size}
         />
       </ActionBarContainer>

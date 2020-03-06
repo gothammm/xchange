@@ -16,6 +16,7 @@ export const useWallet = () => {
         name,
         currency,
         value: initialValue,
+        isPrimary: false,
       };
       appContext?.update({
         ...appContext,

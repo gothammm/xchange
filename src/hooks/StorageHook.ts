@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 const STORAGE_KEY = `xchange-data`;
 
 export const useAppStorage = () => {
-  debugger;
   const currentData = JSON.parse(
     localStorage.getItem(STORAGE_KEY) || JSON.stringify({})
   );
