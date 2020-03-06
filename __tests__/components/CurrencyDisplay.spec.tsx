@@ -1,21 +1,21 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import CurrencyDisplay from '../../src/components/CurrencyDisplay';
 import CurrencyType from '../../src/enums/CurrencyType';
+import { render } from '@testing-library/react';
 
 describe(`CurrencyDisplay component`, () => {
   test(`should match snapshot for various currency type`, () => {
-    const usdCurrencyComponent = renderer.create(
+    const usdCurrencyComponent = render(
       <CurrencyDisplay value={60} currency={CurrencyType.USD}></CurrencyDisplay>
     );
-    expect(usdCurrencyComponent.toJSON()).toMatchSnapshot();
-    const eurCurrencyComponent = renderer.create(
+    expect(usdCurrencyComponent.asFragment()).toMatchSnapshot();
+    const eurCurrencyComponent = render(
       <CurrencyDisplay value={60} currency={CurrencyType.EUR}></CurrencyDisplay>
     );
-    expect(eurCurrencyComponent.toJSON()).toMatchSnapshot();
-    const gbpCurrencyComponent = renderer.create(
+    expect(eurCurrencyComponent.asFragment()).toMatchSnapshot();
+    const gbpCurrencyComponent = render(
       <CurrencyDisplay value={60} currency={CurrencyType.GBP}></CurrencyDisplay>
     );
-    expect(gbpCurrencyComponent.toJSON()).toMatchSnapshot();
+    expect(gbpCurrencyComponent.asFragment()).toMatchSnapshot();
   });
 });

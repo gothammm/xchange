@@ -1,40 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CurrencyDisplay component should match snapshot for various currency type 1`] = `
-<h1
-  className="ant-typography"
-  style={
-    Object {
-      "WebkitLineClamp": null,
-    }
-  }
->
-  $60.00
-</h1>
+<DocumentFragment>
+  <h1
+    class="ant-typography"
+  >
+    $60.00
+  </h1>
+</DocumentFragment>
 `;
 
 exports[`CurrencyDisplay component should match snapshot for various currency type 2`] = `
-<h1
-  className="ant-typography"
-  style={
-    Object {
-      "WebkitLineClamp": null,
-    }
-  }
->
-  €60.00
-</h1>
+<DocumentFragment>
+  <h1
+    class="ant-typography"
+  >
+    €60.00
+  </h1>
+</DocumentFragment>
 `;
 
 exports[`CurrencyDisplay component should match snapshot for various currency type 3`] = `
-<h1
-  className="ant-typography"
-  style={
-    Object {
-      "WebkitLineClamp": null,
-    }
-  }
->
-  £60.00
-</h1>
+<DocumentFragment>
+  <h1
+    class="ant-typography"
+  >
+    £60.00
+  </h1>
+</DocumentFragment>
 `;
