@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "parcel src/index.html",
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "rm -rf dist && parcel build src/index.html",
     "clean": "rm -rf dist"
   },
