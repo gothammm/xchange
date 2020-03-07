@@ -26,6 +26,7 @@ jobs:
           path: dist
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Download app build
         uses: actions/download-artifact@v1
