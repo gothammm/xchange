@@ -36,7 +36,7 @@ const ActionBarContainer = styled(FlexContainer)`
 `;
 
 const HomePage: React.FC = () => {
-  const { wallets, addWallet, resetWallet } = useWallet();
+  const { wallets, addWallet, resetWallet, makePrimary } = useWallet();
   const primaryWallet = wallets?.find(wallet => wallet.isPrimary);
   const [showWallets, setShowWallets] = useState(false);
   return (
@@ -70,12 +70,16 @@ const HomePage: React.FC = () => {
       </ActionBarContainer>
       <XChangeDrawer
         title="Available Wallets"
+        height={300}
         placement="bottom"
         closable={false}
         onClose={() => setShowWallets(false)}
         visible={showWallets}
       >
-        <WalletList wallets={wallets || []} />
+        <WalletList
+          wallets={wallets || []}
+          onMakeWalletPrimary={wallet => makePrimary(wallet)}
+        />
       </XChangeDrawer>
     </HomeContainer>
   );

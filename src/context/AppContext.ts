@@ -6,11 +6,12 @@ export interface WalletType {
   value: number;
   name: string;
   isPrimary: boolean;
+  id: number;
 }
 
 export interface AppContextType {
   wallets: WalletType[];
-  update: (data: AppContextType) => {};
+  update: (data: AppContextType) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);

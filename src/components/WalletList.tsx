@@ -3,28 +3,68 @@ import styled from 'styled-components';
 import { WalletType } from '../context/AppContext';
 import { List, Avatar } from 'antd';
 import { getCurrencyDisplayString } from './CurrencyDisplay';
+import CurrencyIcon from './CurrencyIcon';
+import { CheckOutlined } from '@ant-design/icons';
 
 interface WalletListProps {
   wallets: WalletType[];
+  onMakeWalletPrimary: (wallet: WalletType) => void;
 }
 
-const WalletListContainer = styled.div``;
+const WalletListContainer = styled.div`
+  .ant-avatar.ant-avatar-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 
-const WalletList: React.FC<WalletListProps> = ({ wallets }) => {
+const PrimaryMark = styled.div``;
+
+const WalletList: React.FC<WalletListProps> = ({
+  wallets,
+  onMakeWalletPrimary,
+}) => {
   return (
     <WalletListContainer>
       <List
         itemLayout="horizontal"
         dataSource={wallets}
         renderItem={(item: WalletType) => (
-          <List.Item>
+          <List.Item
+            actions={
+              item.isPrimary
+                ? []
+                : [
+                    <a
+                      onClick={() => onMakeWalletPrimary(item)}
+                      key={`${item.currency}:make-primary`}
+                    >
+                      Make primary
+                    </a>,
+                  ]
+            }
+          >
             <List.Item.Meta
               avatar={
-                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                <Avatar
+                  size="large"
+                  icon={<CurrencyIcon currency={item.currency} />}
+                />
               }
               title={getCurrencyDisplayString(item.value, item.currency)}
               description={`${item.currency}`}
             />
+            {item.isPrimary && (
+              <PrimaryMark>
+                <CheckOutlined
+                  style={{
+                    marginRight: '10px',
+                    fontSize: '20px',
+                  }}
+                />
+              </PrimaryMark>
+            )}
           </List.Item>
         )}
       />

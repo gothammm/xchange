@@ -3,10 +3,10 @@
 exports[`CurrencyDisplay component should match snapshot for various currency type 1`] = `
 <DocumentFragment>
   <div
-    class="sc-AxjAm sc-AxheI sNMOB"
+    class="sc-AxjAm sc-Axmtr byQZgS"
   >
     <div
-      class="sc-AxmLO kzdKyl"
+      class="sc-fzozJi jJAYHc"
     >
       <div
         class="sc-AxjAm sc-AxhCb dgqfQu"
@@ -98,7 +98,7 @@ exports[`CurrencyDisplay component should match snapshot for various currency ty
       </div>
     </div>
     <div
-      class="sc-AxjAm sc-fzozJi gnGExC"
+      class="sc-AxjAm sc-fzoLsD jXSyRU"
     >
       <div
         class="sc-AxjAm sc-AxirZ gtbJzn"
