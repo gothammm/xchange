@@ -4,15 +4,35 @@ import FlexContainer from './FlexContainer';
 import { WalletType } from '../context/AppContext';
 import CurrencyDisplay from './CurrencyDisplay';
 import { Empty, Button } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 interface WalletOverviewProps {
   wallet?: WalletType;
-  onWalletChange: () => void;
+  onWalletClick: () => void;
+  onWalletCreateClick: () => void;
 }
 
-const WalletOverviewContainer = styled(FlexContainer)``;
+const WalletOverviewContainer = styled(FlexContainer)`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    margin: 0 0.3em;
+  }
+`;
 
-const WalletOverview: React.FC<WalletOverviewProps> = ({ wallet }) => {
+const WalletOverviewContainerNotEmpty = styled(WalletOverviewContainer)`
+  cursor: pointer;
+  :active {
+    opacity: 0.6;
+  }
+`;
+
+const WalletOverview: React.FC<WalletOverviewProps> = ({
+  wallet,
+  onWalletClick,
+  onWalletCreateClick,
+}) => {
   if (!wallet) {
     return (
       <WalletOverviewContainer>
@@ -20,15 +40,22 @@ const WalletOverview: React.FC<WalletOverviewProps> = ({ wallet }) => {
           image={Empty.PRESENTED_IMAGE_DEFAULT}
           description={`No wallet or any primary wallet found.`}
         >
-          <Button type="primary">Create a wallet now</Button>
+          <Button type="primary" onClick={() => onWalletCreateClick()}>
+            Create wallet now
+          </Button>
         </Empty>
       </WalletOverviewContainer>
     );
   }
   return (
-    <WalletOverviewContainer>
+    <WalletOverviewContainerNotEmpty onClick={() => onWalletClick()}>
       <CurrencyDisplay value={wallet.value} currency={wallet.currency} />
-    </WalletOverviewContainer>
+      <DownOutlined
+        style={{
+          fontSize: '25px',
+        }}
+      />
+    </WalletOverviewContainerNotEmpty>
   );
 };
 

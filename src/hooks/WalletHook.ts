@@ -27,6 +27,11 @@ export const useWallet = () => {
   const appContext = useContext(AppContext);
   return {
     wallets: appContext?.wallets,
+    resetWallet: () =>
+      appContext?.update({
+        ...appContext,
+        wallets: initialWalletData,
+      }),
     addWallet: (
       name: string,
       currency: CurrencyType,

@@ -3,13 +3,13 @@
 exports[`CurrencyDisplay component should match snapshot for various currency type 1`] = `
 <DocumentFragment>
   <div
-    class="sc-AxjAm sc-AxhUy jqFWgi"
+    class="sc-AxjAm sc-AxheI sNMOB"
   >
     <div
-      class="sc-AxgMl LVloB"
+      class="sc-AxmLO kzdKyl"
     >
       <div
-        class="sc-AxjAm sc-AxhCb fpHuHx"
+        class="sc-AxjAm sc-AxhCb dgqfQu"
       >
         <div
           class="ant-empty"
@@ -90,7 +90,7 @@ exports[`CurrencyDisplay component should match snapshot for various currency ty
               type="button"
             >
               <span>
-                Create a wallet now
+                Create wallet now
               </span>
             </button>
           </div>
@@ -98,7 +98,7 @@ exports[`CurrencyDisplay component should match snapshot for various currency ty
       </div>
     </div>
     <div
-      class="sc-AxjAm sc-AxheI gXahiV"
+      class="sc-AxjAm sc-fzozJi gnGExC"
     >
       <div
         class="sc-AxjAm sc-AxirZ gtbJzn"

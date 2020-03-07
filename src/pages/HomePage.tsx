@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FlexContainer from '../components/FlexContainer';
 import CurrencyType from '../enums/CurrencyType';
 import styled from 'styled-components';
@@ -6,10 +6,20 @@ import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import XChangeButton from '../components/XChangeButton';
 import { useWallet } from '../hooks/WalletHook';
 import WalletOverview from '../components/WalletOverview';
+import { Drawer, message } from 'antd';
+import WalletList from '../components/WalletList';
+import { DrawerProps } from 'antd/lib/drawer';
 
 const HomeContainer = styled(FlexContainer)`
   justify-content: center;
   align-items: center;
+  flex: 0.9;
+`;
+
+const XChangeDrawer: React.FC<DrawerProps> = styled(Drawer)`
+  .ant-drawer-body {
+    padding: 0 8px;
+  }
 `;
 
 const WalletContainer = styled.div`
@@ -26,12 +36,20 @@ const ActionBarContainer = styled(FlexContainer)`
 `;
 
 const HomePage: React.FC = () => {
-  const { wallets, addWallet } = useWallet();
+  const { wallets, addWallet, resetWallet } = useWallet();
   const primaryWallet = wallets?.find(wallet => wallet.isPrimary);
+  const [showWallets, setShowWallets] = useState(false);
   return (
     <HomeContainer>
       <WalletContainer>
-        <WalletOverview wallet={primaryWallet} onWalletChange={() => {}} />
+        <WalletOverview
+          onWalletCreateClick={() => {
+            resetWallet();
+            message.success(`Wallet reset to initial state.`);
+          }}
+          wallet={primaryWallet}
+          onWalletClick={() => setShowWallets(true)}
+        />
       </WalletContainer>
       <ActionBarContainer>
         <XChangeButton
@@ -50,6 +68,15 @@ const HomePage: React.FC = () => {
           size={'large'}
         />
       </ActionBarContainer>
+      <XChangeDrawer
+        title="Available Wallets"
+        placement="bottom"
+        closable={false}
+        onClose={() => setShowWallets(false)}
+        visible={showWallets}
+      >
+        <WalletList wallets={wallets || []} />
+      </XChangeDrawer>
     </HomeContainer>
   );
 };

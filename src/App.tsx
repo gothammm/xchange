@@ -1,12 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useAppStorage } from './hooks/StorageHook';
-import { initialWalletData } from './hooks/WalletHook';
-import AppContext from './context/AppContext';
 import HomePage from './pages/HomePage';
 import styled from 'styled-components';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
+import AppContext from './context/AppContext';
 
 const Toolbar = styled.div`
   display: flex;
@@ -17,17 +16,12 @@ const Toolbar = styled.div`
 `;
 
 const App: React.FC = () => {
-  const { getStorageData, updateStorageData, clearStorage } = useAppStorage();
-  const xChangeStorageData = getStorageData();
+  const { clearStorage, getStorageData, updateStorageData } = useAppStorage();
   return (
     <AppContext.Provider
       value={{
         ...getStorageData(),
         update: updateStorageData,
-        wallets:
-          xChangeStorageData.wallets && xChangeStorageData.wallets.length > 0
-            ? xChangeStorageData.wallets
-            : initialWalletData,
       }}
     >
       <Router>
@@ -39,6 +33,7 @@ const App: React.FC = () => {
             size={'large'}
             onClick={() => {
               clearStorage();
+              message.success(`Cleared wallet data.`);
             }}
           >
             Clear Data.

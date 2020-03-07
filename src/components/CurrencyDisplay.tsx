@@ -7,7 +7,7 @@ interface CurrencyDisplayProps {
   currency: CurrencyType;
 }
 
-const getDisplayString = (value: number, currency: CurrencyType) =>
+export const getCurrencyDisplayString = (value: number, currency: CurrencyType) =>
   value.toLocaleString('en-US', {
     style: 'currency',
     currency,
@@ -18,7 +18,7 @@ const CurrencyDisplay: React.FC<CurrencyDisplayProps> = ({
   value,
 }) => {
   return (
-    <Typography.Title>{getDisplayString(value, currency)}</Typography.Title>
+    <Typography.Title>{getCurrencyDisplayString(value, currency)}</Typography.Title>
   );
 };
 

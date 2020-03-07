@@ -10,7 +10,7 @@ export interface WalletType {
 
 export interface AppContextType {
   wallets: WalletType[];
-  update: (data: AppContextType) => {} 
+  update: (data: AppContextType) => {};
 }
 
 const AppContext = createContext<AppContextType | null>(null);
