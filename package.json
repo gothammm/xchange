@@ -4,7 +4,7 @@
   "description": "A simple currency exchange app",
   "main": "index.js",
   "scripts": {
-    "start:dev": "parcel public/index.html",
+    "start:dev": "parcel src/index.html",
     "test": "jest",
     "build": "rm -rf dist && parcel build public/index.html",
     "clean": "rm -rf dist"

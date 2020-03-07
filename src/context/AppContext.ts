@@ -1,14 +1,14 @@
 import { createContext } from 'react';
 import CurrencyType from '../enums/CurrencyType';
 
-interface WalletType {
+export interface WalletType {
   currency: CurrencyType;
   value: number;
   name: string;
   isPrimary: boolean;
 }
 
-interface AppContextType {
+export interface AppContextType {
   wallets: WalletType[];
   update: (data: AppContextType) => {} 
 }

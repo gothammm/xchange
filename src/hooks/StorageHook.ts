@@ -15,5 +15,6 @@ export const useAppStorage = () => {
   return {
     getStorageData: () => data,
     updateStorageData: (data: any) => setData(data),
+    clearStorage: () => setData({}),
   };
 };

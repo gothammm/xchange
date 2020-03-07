@@ -2,14 +2,10 @@ import React from 'react';
 import FlexContainer from '../components/FlexContainer';
 import CurrencyType from '../enums/CurrencyType';
 import styled from 'styled-components';
-import {
-  PlusOutlined,
-  SyncOutlined,
-  WalletOutlined,
-} from '@ant-design/icons';
+import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import XChangeButton from '../components/XChangeButton';
-import CurrencyDisplay from '../components/CurrencyDisplay';
 import { useWallet } from '../hooks/WalletHook';
+import WalletOverview from '../components/WalletOverview';
 
 const HomeContainer = styled(FlexContainer)`
   justify-content: center;
@@ -17,7 +13,7 @@ const HomeContainer = styled(FlexContainer)`
 `;
 
 const WalletContainer = styled.div`
-  margin: 2em 0;
+  margin: 3em 0;
 `;
 
 const ActionBarContainer = styled(FlexContainer)`
@@ -30,21 +26,19 @@ const ActionBarContainer = styled(FlexContainer)`
 `;
 
 const HomePage: React.FC = () => {
-  const size = 'large';
   const { wallets, addWallet } = useWallet();
+  const primaryWallet = wallets?.find(wallet => wallet.isPrimary);
   return (
     <HomeContainer>
       <WalletContainer>
-        {wallets?.map(wallet => (
-          <CurrencyDisplay value={wallet.value} currency={wallet.currency} />
-        ))}
+        <WalletOverview wallet={primaryWallet} onWalletChange={() => {}} />
       </WalletContainer>
       <ActionBarContainer>
         <XChangeButton
           type="primary"
           shape="circle"
           icon={<PlusOutlined />}
-          size={size}
+          size={'large'}
           text={'Add Money'}
           onClick={() => addWallet('Hello', CurrencyType.USD, 10)}
         />
@@ -53,14 +47,7 @@ const HomePage: React.FC = () => {
           shape="circle"
           icon={<SyncOutlined />}
           text={'Exchange'}
-          size={size}
-        />
-        <XChangeButton
-          type="primary"
-          shape="circle"
-          icon={<WalletOutlined />}
-          text={'Wallets'}
-          size={size}
+          size={'large'}
         />
       </ActionBarContainer>
     </HomeContainer>
