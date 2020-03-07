@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import FlexContainer from '../components/FlexContainer';
-import CurrencyType from '../enums/CurrencyType';
 import styled from 'styled-components';
 import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import XChangeButton from '../components/XChangeButton';
@@ -9,6 +8,7 @@ import WalletOverview from '../components/WalletOverview';
 import { Drawer, message } from 'antd';
 import WalletList from '../components/WalletList';
 import { DrawerProps } from 'antd/lib/drawer';
+import AddMoneyModal from '../components/AddMoneyModal';
 
 const HomeContainer = styled(FlexContainer)`
   justify-content: center;
@@ -36,11 +36,24 @@ const ActionBarContainer = styled(FlexContainer)`
 `;
 
 const HomePage: React.FC = () => {
-  const { wallets, addWallet, resetWallet, makePrimary } = useWallet();
+  const { wallets, resetWallet, makePrimary, addMoneyToWallet } = useWallet();
   const primaryWallet = wallets?.find(wallet => wallet.isPrimary);
   const [showWallets, setShowWallets] = useState(false);
+  const [showAddMoney, setShowAddMoney] = useState(false);
   return (
     <HomeContainer>
+      {primaryWallet && (
+        <AddMoneyModal
+          show={showAddMoney}
+          wallet={primaryWallet}
+          onCancel={() => setShowAddMoney(false)}
+          onMoneyAdd={(value: number) => {
+            addMoneyToWallet(primaryWallet, value);
+            setShowAddMoney(false);
+            message.success(`Money added successfully!`);
+          }}
+        />
+      )}
       <WalletContainer>
         <WalletOverview
           onWalletCreateClick={() => {
@@ -58,7 +71,7 @@ const HomePage: React.FC = () => {
           icon={<PlusOutlined />}
           size={'large'}
           text={'Add Money'}
-          onClick={() => addWallet('Hello', CurrencyType.USD, 10)}
+          onClick={() => setShowAddMoney(true)}
         />
         <XChangeButton
           type="primary"
@@ -78,7 +91,10 @@ const HomePage: React.FC = () => {
       >
         <WalletList
           wallets={wallets || []}
-          onMakeWalletPrimary={wallet => makePrimary(wallet)}
+          onMakeWalletPrimary={wallet => {
+            makePrimary(wallet);
+            setShowWallets(false);
+          }}
         />
       </XChangeDrawer>
     </HomeContainer>

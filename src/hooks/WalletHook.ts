@@ -41,6 +41,19 @@ export const useWallet = () => {
         ) || [];
       appContext?.update({ ...appContext, wallets: updatedWallets });
     },
+    addMoneyToWallet: (walletToUpdate: WalletType, value: number) => {
+      const updatedWallets =
+        appContext?.wallets?.reduce((acc, wallet) => {
+          if (wallet.id === walletToUpdate.id) {
+            return [
+              ...acc,
+              { ...walletToUpdate, value: (walletToUpdate.value || 0) + value },
+            ];
+          }
+          return [...acc, wallet];
+        }, [] as WalletType[]) || [];
+      appContext?.update({ ...appContext, wallets: updatedWallets });
+    },
     resetWallet: () =>
       appContext?.update({
         ...appContext,

@@ -52,4 +52,33 @@ describe(`WalletHook`, () => {
     expect(updatedPrimaryWallet?.id).toEqual(nonPrimaryWallet?.id);
     expect(updatedPrimaryWallet?.isPrimary).toEqual(true);
   });
+
+  test(`to add money to a wallet`, async () => {
+    const wrapper = ({ children }: { children?: ReactNode }) => {
+      const { updateStorageData, getStorageData } = useAppStorage();
+      return (
+        <AppContext.Provider
+          value={{
+            ...getStorageData(),
+            update: updateStorageData,
+          }}
+        >
+          {children}
+        </AppContext.Provider>
+      );
+    };
+    const { result } = renderHook(() => useWallet(), { wrapper });
+    expect(result.current.wallets).toEqual(initialWalletData);
+
+    const walletToUpdate = initialWalletData[0];
+    const moneyToAdd = 10;
+
+    act(() => {
+      result.current?.addMoneyToWallet(walletToUpdate, moneyToAdd);
+    });
+
+    expect(
+      result.current?.wallets?.find(c => c.id === walletToUpdate.id)?.value
+    ).toEqual(moneyToAdd);
+  });
 });
