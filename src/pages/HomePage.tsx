@@ -9,6 +9,7 @@ import { Drawer, message } from 'antd';
 import WalletList from '../components/WalletList';
 import { DrawerProps } from 'antd/lib/drawer';
 import AddMoneyModal from '../components/AddMoneyModal';
+import { useHistory } from 'react-router-dom';
 
 const HomeContainer = styled(FlexContainer)`
   justify-content: center;
@@ -40,6 +41,7 @@ const HomePage: React.FC = () => {
   const primaryWallet = wallets?.find(wallet => wallet.isPrimary);
   const [showWallets, setShowWallets] = useState(false);
   const [showAddMoney, setShowAddMoney] = useState(false);
+  const history = useHistory();
   return (
     <HomeContainer>
       {primaryWallet && (
@@ -79,6 +81,7 @@ const HomePage: React.FC = () => {
           icon={<SyncOutlined />}
           text={'Exchange'}
           size={'large'}
+          onClick={() => history.push('/exchange')}
         />
       </ActionBarContainer>
       <XChangeDrawer

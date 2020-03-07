@@ -1,10 +1,15 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import HomePage from '../../src/pages/HomePage';
+import { MemoryRouter } from 'react-router-dom';
 
-describe(`CurrencyDisplay component`, () => {
+describe(`HomePage component`, () => {
   test(`should match snapshot for various currency type`, () => {
-    const component = render(<HomePage />);
+    const component = render(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>
+    );
     expect(component.asFragment()).toMatchSnapshot();
   });
 });

@@ -1,9 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from 'react-router-dom';
 import { useAppStorage } from './hooks/StorageHook';
 import HomePage from './pages/HomePage';
 import styled from 'styled-components';
-import { Button, message } from 'antd';
+import { Button, message, Result } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
 import AppContext from './context/AppContext';
 
@@ -33,7 +38,7 @@ const App: React.FC = () => {
             size={'large'}
             onClick={() => {
               clearStorage();
-              message.success(`Cleared wallet data.`);
+              message.warn(`Cleared wallet data.`);
             }}
           >
             Clear Data.
@@ -43,6 +48,27 @@ const App: React.FC = () => {
           <Route path="/" exact>
             <HomePage />
           </Route>
+          <Route path="/exchange">
+            <div>Exchange</div>
+          </Route>
+          <Route
+            path="*"
+            component={() => {
+              const history = useHistory();
+              return (
+                <Result
+                  status="404"
+                  title="404"
+                  subTitle="Sorry, the page you visited does not exist."
+                  extra={
+                    <Button type="primary" onClick={() => history.push('/')}>
+                      Back Home
+                    </Button>
+                  }
+                />
+              );
+            }}
+          ></Route>
         </Switch>
       </Router>
     </AppContext.Provider>

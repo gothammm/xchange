@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CurrencyDisplay component should match snapshot for various currency type 1`] = `
+exports[`HomePage component should match snapshot for various currency type 1`] = `
 <DocumentFragment>
   <div
     class="sc-AxjAm sc-fzoLsD dUQNsw"

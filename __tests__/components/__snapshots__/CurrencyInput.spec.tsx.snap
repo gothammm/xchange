@@ -1,42 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CurrencyInput component simple snapshot 1`] = `
-<DocumentFragment>
-  <div
-    class="sc-AxirZ dJUKa-D"
-  >
-    <span
-      class="ant-input-affix-wrapper"
-    >
-      <span
-        class="ant-input-prefix"
-      >
-        <div
-          class="sc-AxjAm jsGdgg"
-        >
-          <h3
-            class="ant-typography"
-          >
-            USD
-          </h3>
-          <span
-            class="ant-typography ant-typography-secondary"
-          >
-            Balance: $0.00
-          </span>
-        </div>
-      </span>
-      <input
-        class="ant-input"
-        placeholder="Enter value"
-        type="text"
-        value="$0.60"
-      />
-    </span>
-  </div>
-</DocumentFragment>
-`;
-
 exports[`CurrencyInput component simple snapshot for different wallet data 1`] = `
 <DocumentFragment>
   <div
