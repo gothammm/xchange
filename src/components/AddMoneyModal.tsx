@@ -27,6 +27,9 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
         visible={show}
         onCancel={onCancel}
         okText="Add money"
+        okButtonProps={{
+          disabled: value <= 0,
+        }}
         onOk={() => {
           onMoneyAdd(value / 100);
           setValue(0);
