@@ -1,5 +1,5 @@
 # XChange
-> A simple currency exchange app.
+> A simple currency exchange app in react.
 
 ## Prerequisite.
   - Install [Node.js](https://nodejs.org/en/)
