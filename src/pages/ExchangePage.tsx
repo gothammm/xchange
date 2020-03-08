@@ -117,7 +117,8 @@ const ExchangePage: React.FC = () => {
     // Create interval to constantly call rate.
     const interval = setInterval(() => {
       fetchFXRate(primaryWallet, secondaryWallet);
-    }, 1000000);
+      message.info(`Exchange rate has been refreshed`);
+    }, 10000);
     fetchFXRate(primaryWallet, secondaryWallet);
     return () => clearInterval(interval);
   }, []);
