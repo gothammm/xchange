@@ -1,3 +1,6 @@
+
+<img src="src/favicon.svg" height="50" width="50">
+
 # XChange
 > A simple currency exchange app in react.
 
