@@ -5,7 +5,23 @@ import AppContext, { AppContextType } from '../../src/context/AppContext';
 import React, { ReactNode } from 'react';
 
 describe(`WalletHook`, () => {
-  beforeEach(() => localStorage.clear());
+  let appWrapper: React.ComponentType;
+  beforeEach(() => {
+    localStorage.clear();
+    appWrapper = ({ children }: { children?: ReactNode }) => {
+      const { updateStorageData, getStorageData } = useAppStorage();
+      return (
+        <AppContext.Provider
+          value={{
+            ...getStorageData(),
+            update: updateStorageData,
+          }}
+        >
+          {children}
+        </AppContext.Provider>
+      );
+    };
+  });
   test(`to trigger local storage update`, () => {
     const wrapper = ({ children }: { children?: ReactNode }) => (
       <AppContext.Provider
@@ -22,20 +38,7 @@ describe(`WalletHook`, () => {
   });
 
   test(`to mark a wallet primary`, async () => {
-    const wrapper = ({ children }: { children?: ReactNode }) => {
-      const { updateStorageData, getStorageData } = useAppStorage();
-      return (
-        <AppContext.Provider
-          value={{
-            ...getStorageData(),
-            update: updateStorageData,
-          }}
-        >
-          {children}
-        </AppContext.Provider>
-      );
-    };
-    const { result } = renderHook(() => useWallet(), { wrapper });
+    const { result } = renderHook(() => useWallet(), { wrapper: appWrapper });
     expect(result.current.wallets).toEqual(initialWalletData);
     const nonPrimaryWallet = result.current?.wallets?.find(c => !c.isPrimary);
 
@@ -54,20 +57,7 @@ describe(`WalletHook`, () => {
   });
 
   test(`to add money to a wallet`, async () => {
-    const wrapper = ({ children }: { children?: ReactNode }) => {
-      const { updateStorageData, getStorageData } = useAppStorage();
-      return (
-        <AppContext.Provider
-          value={{
-            ...getStorageData(),
-            update: updateStorageData,
-          }}
-        >
-          {children}
-        </AppContext.Provider>
-      );
-    };
-    const { result } = renderHook(() => useWallet(), { wrapper });
+    const { result } = renderHook(() => useWallet(), { wrapper: appWrapper });
     expect(result.current.wallets).toEqual(initialWalletData);
 
     const walletToUpdate = initialWalletData[0];
@@ -80,5 +70,19 @@ describe(`WalletHook`, () => {
     expect(
       result.current?.wallets?.find(c => c.id === walletToUpdate.id)?.value
     ).toEqual(moneyToAdd);
+  });
+
+  test.only(`to deduct money from wallet`, async () => {
+    const { result } = renderHook(() => useWallet(), { wrapper: appWrapper });
+    expect(result.current.wallets).toEqual(initialWalletData);
+    const walletToUpdate = initialWalletData[0];
+    const moneyToDeduct = 10;
+    act(() => {
+      result.current?.deductMoneyFromWallet(walletToUpdate, moneyToDeduct);
+    });
+
+    expect(
+      result.current?.wallets?.find(c => c.id === walletToUpdate.id)?.value
+    ).toEqual(-moneyToDeduct);
   });
 });

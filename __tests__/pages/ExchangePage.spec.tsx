@@ -1,13 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import HomePage from '../../src/pages/HomePage';
+import ExchangePage from '../../src/pages/ExchangePage';
 import { MemoryRouter } from 'react-router-dom';
 
-describe(`HomePage component`, () => {
+describe(`ExchangePage component`, () => {
   test(`should match snapshot`, () => {
     const component = render(
       <MemoryRouter>
-        <HomePage />
+        <ExchangePage />
       </MemoryRouter>
     );
     expect(component.asFragment()).toMatchSnapshot();

@@ -10,15 +10,9 @@ interface FXResponse {
   base: string;
 }
 
-interface FXResult {
-  from: {
-    currency: CurrencyType;
-    value: number;
-  };
-  to: {
-    currency: CurrencyType;
-    value: number;
-  };
+export interface FXResult {
+  from: CurrencyType;
+  to: CurrencyType;
   rate: number;
 }
 
@@ -31,26 +25,26 @@ export const useFXApiHook = () => {
     error,
     result,
     isLoading,
-    fx: (value: number, from: CurrencyType, to: CurrencyType) => {
+    getFXRate: (from: CurrencyType, to: CurrencyType) => {
       setIsLoading(true);
       return fetch(`${BASE_URL}/latest?base=${from}&symbols=${to}`)
         .then(response => response.json())
         .then((fxData: FXResponse) => {
           const conversionRate = +fxData.rates[to];
           setResult({
-            from: {
-              value,
-              currency: from,
-            },
-            to: {
-              value: +(value * conversionRate).toFixed(2),
-              currency: to,
-            },
+            from: from,
+            to: to,
             rate: conversionRate,
           });
         })
         .catch(e => setError(e))
         .finally(() => setIsLoading(false));
+    },
+    getFXValue: (conversionRate: FXResult, from: number, doReverse = false) => {
+      const convertedValue = !doReverse
+        ? (from / 100) * conversionRate.rate
+        : from / 100 / conversionRate.rate;
+      return +(+convertedValue.toFixed(2) * 100).toFixed(2);
     },
   };
 };

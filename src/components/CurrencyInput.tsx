@@ -49,7 +49,6 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   }
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>): void => {
-      debugger;
       const { key, keyCode } = e;
       if (
         (value === 0 && !VALID_FIRST.test(key)) ||

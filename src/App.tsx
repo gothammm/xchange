@@ -7,19 +7,10 @@ import {
 } from 'react-router-dom';
 import { useAppStorage } from './hooks/StorageHook';
 import HomePage from './pages/HomePage';
-import styled from 'styled-components';
-import { Button, message, Result, Tooltip } from 'antd';
-import { ClearOutlined } from '@ant-design/icons';
+import { Button, Result, message } from 'antd';
 import AppContext from './context/AppContext';
 import ExchangePage from './pages/ExchangePage';
-
-const Toolbar = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  button {
-    margin: 1em;
-  }
-`;
+import Toolbar from './components/Toolbar';
 
 const App: React.FC = () => {
   const { clearStorage, getStorageData, updateStorageData } = useAppStorage();
@@ -31,22 +22,12 @@ const App: React.FC = () => {
       }}
     >
       <Router>
-        <Toolbar>
-          <Tooltip placement="bottom" title="To erase all data and start fresh.">
-            <Button
-              type="primary"
-              shape="round"
-              icon={<ClearOutlined />}
-              size={'large'}
-              onClick={() => {
-                clearStorage();
-                message.warn(`Cleared wallet data.`);
-              }}
-            >
-              Clear Data.
-            </Button>
-          </Tooltip>
-        </Toolbar>
+        <Toolbar
+          onClearStorageClick={() => {
+            clearStorage();
+            message.warn(`Cleared wallet data.`);
+          }}
+        />
         <Switch>
           <Route path="/" exact>
             <HomePage />
