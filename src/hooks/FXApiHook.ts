@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CurrencyType from '../enums/CurrencyType';
 
 const BASE_URL = `https://api.exchangeratesapi.io`;

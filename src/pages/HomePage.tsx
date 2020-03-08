@@ -10,12 +10,7 @@ import WalletList from '../components/WalletList';
 import { DrawerProps } from 'antd/lib/drawer';
 import AddMoneyModal from '../components/AddMoneyModal';
 import { useHistory } from 'react-router-dom';
-
-const HomeContainer = styled(FlexContainer)`
-  justify-content: center;
-  align-items: center;
-  flex: 0.9;
-`;
+import CenterPageContainer from '../components/CenterPageContainer';
 
 const XChangeDrawer: React.FC<DrawerProps> = styled(Drawer)`
   .ant-drawer-body {
@@ -43,7 +38,7 @@ const HomePage: React.FC = () => {
   const [showAddMoney, setShowAddMoney] = useState(false);
   const history = useHistory();
   return (
-    <HomeContainer>
+    <CenterPageContainer>
       {primaryWallet && (
         <AddMoneyModal
           show={showAddMoney}
@@ -100,7 +95,7 @@ const HomePage: React.FC = () => {
           }}
         />
       </XChangeDrawer>
-    </HomeContainer>
+    </CenterPageContainer>
   );
 };
 

@@ -8,9 +8,10 @@ import {
 import { useAppStorage } from './hooks/StorageHook';
 import HomePage from './pages/HomePage';
 import styled from 'styled-components';
-import { Button, message, Result } from 'antd';
+import { Button, message, Result, Tooltip } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
 import AppContext from './context/AppContext';
+import ExchangePage from './pages/ExchangePage';
 
 const Toolbar = styled.div`
   display: flex;
@@ -31,25 +32,27 @@ const App: React.FC = () => {
     >
       <Router>
         <Toolbar>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<ClearOutlined />}
-            size={'large'}
-            onClick={() => {
-              clearStorage();
-              message.warn(`Cleared wallet data.`);
-            }}
-          >
-            Clear Data.
-          </Button>
+          <Tooltip placement="bottom" title="To erase all data and start fresh.">
+            <Button
+              type="primary"
+              shape="round"
+              icon={<ClearOutlined />}
+              size={'large'}
+              onClick={() => {
+                clearStorage();
+                message.warn(`Cleared wallet data.`);
+              }}
+            >
+              Clear Data.
+            </Button>
+          </Tooltip>
         </Toolbar>
         <Switch>
           <Route path="/" exact>
             <HomePage />
           </Route>
           <Route path="/exchange">
-            <div>Exchange</div>
+            <ExchangePage />
           </Route>
           <Route
             path="*"
