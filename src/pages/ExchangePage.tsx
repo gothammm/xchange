@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CenterPageContainer from '../components/CenterPageContainer';
 import { useWallet } from '../hooks/WalletHook';
 import CurrencyInput from '../components/CurrencyInput';
-import { Empty, Button, message } from 'antd';
+import { Empty, Button, message, Drawer } from 'antd';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import FlexContainer from '../components/FlexContainer';
@@ -10,10 +10,18 @@ import ExchangeInformation from '../components/ExchangeInformation';
 import { useFXApiHook } from '../hooks/FXApiHook';
 import { WalletType } from '../context/AppContext';
 import { useExchange } from '../hooks/ExchangeHook';
+import WalletList from '../components/WalletList';
+import { DrawerProps } from 'antd/lib/drawer';
 
 const InputContainer = styled(FlexContainer)`
   justify-content: flex-end;
   flex: none;
+`;
+
+const XChangeDrawer: React.FC<DrawerProps> = styled(Drawer)`
+  .ant-drawer-body {
+    padding: 0 8px;
+  }
 `;
 
 const ExchangeButton = styled(Button)`
@@ -21,12 +29,14 @@ const ExchangeButton = styled(Button)`
   width: 25em;
 `;
 
-const ErrorInWallet: React.FC<{ message: string }> = ({ message }) => {
-  const history = useHistory();
+const ErrorInWallet: React.FC<{ message: string; onHomeClick: () => void }> = ({
+  message,
+  onHomeClick,
+}) => {
   return (
     <CenterPageContainer>
       <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={message}>
-        <Button type="primary" onClick={() => history.push('/')}>
+        <Button type="primary" onClick={onHomeClick}>
           Go Home
         </Button>
       </Empty>
@@ -38,40 +48,66 @@ const ExchangePage: React.FC = () => {
   const { getPrimaryWallet, wallets } = useWallet();
   const { exchange } = useExchange();
   const history = useHistory();
-
   if (!wallets) {
-    return <ErrorInWallet message={`Data was cleared, no wallet found.`} />;
+    return (
+      <ErrorInWallet
+        onHomeClick={() => history.push('/')}
+        message={`Data was cleared, no wallet found.`}
+      />
+    );
   }
   const activeWallet = getPrimaryWallet();
-  const [exchangeValue, setExchangeValue] = useState<{
-    from: number;
-    to: number;
-  }>({ from: 0, to: 0 });
+  const [showWallets, setShowWallets] = useState(false);
+
   const [hasSwapped, setHasSwapped] = useState(false);
   const otherWallets =
     (activeWallet &&
       wallets?.filter(wallet => wallet.id !== activeWallet.id)) ||
     [];
+  const [secondaryWallet, setSecondaryWallet] = useState(otherWallets[0]);
+  const [isExchanging, setIsExchanging] = useState(false);
+  const [walletToChange, setWalletToChange] = useState<WalletType | null>(null);
+  const fx = useFXApiHook();
+  const [exchangeValue, setExchangeValue] = useState<{
+    from: number;
+    to: number;
+  }>({ from: 0, to: 0 });
 
-  if (!activeWallet) {
-    return <ErrorInWallet message={`Oops, no primary wallet was found.`} />;
-  }
-
-  if (otherWallets && otherWallets.length <= 0) {
+  if (!wallets) {
     return (
       <ErrorInWallet
-        message={`Oops, only primary wallet was found, we require more than one wallet for exchange.`}
+        onHomeClick={() => history.push('/')}
+        message={`Data was cleared, no wallet found.`}
+      />
+    );
+  }
+
+  if (!activeWallet) {
+    return (
+      <ErrorInWallet
+        onHomeClick={() => history.push('/')}
+        message={`Oops, no primary wallet was found.`}
       />
     );
   }
   const [primaryWallet, setPrimaryWallet] = useState(activeWallet);
-  const [secondaryWallet, setSecondaryWallet] = useState(otherWallets[0]);
-  const [isExchanging, setIsExchanging] = useState(false);
 
-  const fx = useFXApiHook();
+  if (otherWallets && otherWallets.length <= 0) {
+    return (
+      <ErrorInWallet
+        onHomeClick={() => history.push('/')}
+        message={`Oops, only primary wallet was found, we require more than one wallet for exchange.`}
+      />
+    );
+  }
 
   const fetchFXRate = async (primary: WalletType, secondary: WalletType) => {
     return fx.getFXRate(primary.currency, secondary.currency);
+  };
+
+  const onWalletChange = (wallet: WalletType) => {
+    setWalletToChange(wallet);
+    setShowWallets(true);
   };
 
   useEffect(() => {
@@ -82,6 +118,10 @@ const ExchangePage: React.FC = () => {
     fetchFXRate(primaryWallet, secondaryWallet);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    fetchFXRate(primaryWallet, secondaryWallet);
+  }, [secondaryWallet.id, primaryWallet.id]);
 
   useEffect(() => {
     const from = exchangeValue.from;
@@ -111,6 +151,7 @@ const ExchangePage: React.FC = () => {
     <CenterPageContainer>
       <InputContainer>
         <CurrencyInput
+          onWalletChange={onWalletChange}
           wallet={primaryWallet}
           onChange={value => {
             setExchangeValue({
@@ -139,6 +180,7 @@ const ExchangePage: React.FC = () => {
       />
       <InputContainer>
         <CurrencyInput
+          onWalletChange={onWalletChange}
           wallet={secondaryWallet}
           onChange={value => {
             setExchangeValue({
@@ -177,6 +219,43 @@ const ExchangePage: React.FC = () => {
       >
         Exchange
       </ExchangeButton>
+      <XChangeDrawer
+        title="Available Wallets / Currency"
+        height={300}
+        placement="bottom"
+        closable={false}
+        onClose={() => setShowWallets(false)}
+        visible={showWallets}
+      >
+        <WalletList
+          actionText="Select"
+          wallets={
+            wallets.map(wallet =>
+              walletToChange && walletToChange.id === wallet.id
+                ? { ...wallet, isPrimary: true }
+                : { ...wallet, isPrimary: false }
+            ) || []
+          }
+          onMakeWalletPrimary={wallet => {
+            if (!walletToChange || !wallet) {
+              return;
+            }
+            if (walletToChange.id === wallet.id) return;
+            if (walletToChange.id === primaryWallet.id) {
+              setPrimaryWallet(wallet);
+              secondaryWallet.id === wallet.id &&
+                setSecondaryWallet(primaryWallet);
+              fetchFXRate(wallet, primaryWallet);
+            } else if (walletToChange.id === secondaryWallet.id) {
+              setSecondaryWallet(wallet);
+              primaryWallet.id === wallet.id &&
+                setPrimaryWallet(secondaryWallet);
+              fetchFXRate(secondaryWallet, wallet);
+            }
+            setShowWallets(false);
+          }}
+        />
+      </XChangeDrawer>
     </CenterPageContainer>
   );
 };

@@ -3,7 +3,7 @@
 exports[`CurrencyInput component simple snapshot for different wallet data 1`] = `
 <DocumentFragment>
   <div
-    class="sc-AxirZ dJUKa-D"
+    class="sc-AxiKw cLBWor"
   >
     <span
       class="ant-input-affix-wrapper"
@@ -14,11 +14,15 @@ exports[`CurrencyInput component simple snapshot for different wallet data 1`] =
         <div
           class="sc-AxjAm jsGdgg"
         >
-          <h3
-            class="ant-typography"
+          <div
+            class="sc-AxirZ icTEeK"
           >
-            USD
-          </h3>
+            <h3
+              class="ant-typography"
+            >
+              USD
+            </h3>
+          </div>
           <span
             class="ant-typography ant-typography-secondary"
           >
@@ -40,7 +44,7 @@ exports[`CurrencyInput component simple snapshot for different wallet data 1`] =
 exports[`CurrencyInput component simple snapshot for different wallet data 2`] = `
 <DocumentFragment>
   <div
-    class="sc-AxirZ dJUKa-D"
+    class="sc-AxiKw cLBWor"
   >
     <span
       class="ant-input-affix-wrapper"
@@ -51,11 +55,15 @@ exports[`CurrencyInput component simple snapshot for different wallet data 2`] =
         <div
           class="sc-AxjAm jsGdgg"
         >
-          <h3
-            class="ant-typography"
+          <div
+            class="sc-AxirZ icTEeK"
           >
-            GBP
-          </h3>
+            <h3
+              class="ant-typography"
+            >
+              GBP
+            </h3>
+          </div>
           <span
             class="ant-typography ant-typography-secondary"
           >
@@ -77,7 +85,7 @@ exports[`CurrencyInput component simple snapshot for different wallet data 2`] =
 exports[`CurrencyInput component simple snapshot for different wallet data 3`] = `
 <DocumentFragment>
   <div
-    class="sc-AxirZ dJUKa-D"
+    class="sc-AxiKw cLBWor"
   >
     <span
       class="ant-input-affix-wrapper"
@@ -88,11 +96,15 @@ exports[`CurrencyInput component simple snapshot for different wallet data 3`] =
         <div
           class="sc-AxjAm jsGdgg"
         >
-          <h3
-            class="ant-typography"
+          <div
+            class="sc-AxirZ icTEeK"
           >
-            EUR
-          </h3>
+            <h3
+              class="ant-typography"
+            >
+              EUR
+            </h3>
+          </div>
           <span
             class="ant-typography ant-typography-secondary"
           >

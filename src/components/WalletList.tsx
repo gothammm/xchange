@@ -9,6 +9,7 @@ import { CheckOutlined } from '@ant-design/icons';
 interface WalletListProps {
   wallets: WalletType[];
   onMakeWalletPrimary: (wallet: WalletType) => void;
+  actionText?: string;
 }
 
 const WalletListContainer = styled.div`
@@ -24,6 +25,7 @@ const PrimaryMark = styled.div``;
 const WalletList: React.FC<WalletListProps> = ({
   wallets,
   onMakeWalletPrimary,
+  actionText = 'Make Primary',
 }) => {
   return (
     <WalletListContainer>
@@ -40,7 +42,7 @@ const WalletList: React.FC<WalletListProps> = ({
                       onClick={() => onMakeWalletPrimary(item)}
                       key={`${item.currency}:make-primary`}
                     >
-                      Make primary
+                      {actionText}
                     </a>,
                   ]
             }
