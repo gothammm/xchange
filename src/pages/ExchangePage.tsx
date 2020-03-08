@@ -18,6 +18,10 @@ const InputContainer = styled(FlexContainer)`
   flex: none;
 `;
 
+const CenterContainer = styled(FlexContainer)`
+  justify-content: center;
+`;
+
 const XChangeDrawer: React.FC<DrawerProps> = styled(Drawer)`
   .ant-drawer-body {
     padding: 0 8px;
@@ -26,7 +30,6 @@ const XChangeDrawer: React.FC<DrawerProps> = styled(Drawer)`
 
 const ExchangeButton = styled(Button)`
   margin-top: 2em;
-  width: 25em;
 `;
 
 const ErrorInWallet: React.FC<{ message: string; onHomeClick: () => void }> = ({
@@ -149,76 +152,78 @@ const ExchangePage: React.FC = () => {
 
   return (
     <CenterPageContainer>
-      <InputContainer>
-        <CurrencyInput
-          onWalletChange={onWalletChange}
-          wallet={primaryWallet}
-          onChange={value => {
-            setExchangeValue({
-              from: value,
-              to:
-                !fx.error && fx.result
-                  ? fx.getFXValue(fx.result, value)
-                  : value,
-            });
+      <CenterContainer>
+        <InputContainer>
+          <CurrencyInput
+            onWalletChange={onWalletChange}
+            wallet={primaryWallet}
+            onChange={value => {
+              setExchangeValue({
+                from: value,
+                to:
+                  !fx.error && fx.result
+                    ? fx.getFXValue(fx.result, value)
+                    : value,
+              });
+            }}
+            value={exchangeValue.from}
+          />
+        </InputContainer>
+        <ExchangeInformation
+          isLoading={fx.isLoading}
+          conversionRate={fx.result}
+          primary={primaryWallet}
+          secondary={secondaryWallet}
+          onRefreshRate={() => fetchFXRate(primaryWallet, secondaryWallet)}
+          onSwap={(newPrimary, newSecondary) => {
+            setPrimaryWallet(newPrimary);
+            setSecondaryWallet(newSecondary);
+            fetchFXRate(newPrimary, newSecondary);
+            !hasSwapped && setHasSwapped(true);
           }}
-          value={exchangeValue.from}
         />
-      </InputContainer>
-      <ExchangeInformation
-        isLoading={fx.isLoading}
-        conversionRate={fx.result}
-        primary={primaryWallet}
-        secondary={secondaryWallet}
-        onRefreshRate={() => fetchFXRate(primaryWallet, secondaryWallet)}
-        onSwap={(newPrimary, newSecondary) => {
-          setPrimaryWallet(newPrimary);
-          setSecondaryWallet(newSecondary);
-          fetchFXRate(newPrimary, newSecondary);
-          !hasSwapped && setHasSwapped(true);
-        }}
-      />
-      <InputContainer>
-        <CurrencyInput
-          onWalletChange={onWalletChange}
-          wallet={secondaryWallet}
-          onChange={value => {
-            setExchangeValue({
-              to: value,
-              from:
-                !fx.error && fx.result
-                  ? fx.getFXValue(fx.result, value)
-                  : value,
-            });
+        <InputContainer>
+          <CurrencyInput
+            onWalletChange={onWalletChange}
+            wallet={secondaryWallet}
+            onChange={value => {
+              setExchangeValue({
+                to: value,
+                from:
+                  !fx.error && fx.result
+                    ? fx.getFXValue(fx.result, value)
+                    : value,
+              });
+            }}
+            value={exchangeValue.to}
+          />
+        </InputContainer>
+        <ExchangeButton
+          loading={isExchanging}
+          disabled={exchangeValue.from <= 0 && exchangeValue.to <= 0}
+          type="primary"
+          shape="round"
+          onClick={() => {
+            setIsExchanging(true);
+            exchange(
+              primaryWallet,
+              exchangeValue.from / 100,
+              secondaryWallet,
+              exchangeValue.to / 100
+            )
+              .then(() => {
+                message.success(`Exchange successful!`);
+                history.push('/');
+              })
+              .catch(e => {
+                message.error(e);
+              })
+              .finally(() => setIsExchanging(false));
           }}
-          value={exchangeValue.to}
-        />
-      </InputContainer>
-      <ExchangeButton
-        loading={isExchanging}
-        disabled={exchangeValue.from <= 0 && exchangeValue.to <= 0}
-        type="primary"
-        shape="round"
-        onClick={() => {
-          setIsExchanging(true);
-          exchange(
-            primaryWallet,
-            exchangeValue.from / 100,
-            secondaryWallet,
-            exchangeValue.to / 100
-          )
-            .then(() => {
-              message.success(`Exchange successful!`);
-              history.push('/');
-            })
-            .catch(e => {
-              message.error(e);
-            })
-            .finally(() => setIsExchanging(false));
-        }}
-      >
-        Exchange
-      </ExchangeButton>
+        >
+          Exchange
+        </ExchangeButton>
+      </CenterContainer>
       <XChangeDrawer
         title="Available Wallets / Currency"
         height={300}

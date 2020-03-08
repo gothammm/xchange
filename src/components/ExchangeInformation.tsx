@@ -26,12 +26,6 @@ const MainContainer = styled(FlexContainer)`
   justify-content: space-between;
 `;
 
-const SwapButton = styled(Button)`
-  margin-right: 8em;
-`;
-
-const RateButton = styled(Button)``;
-
 const getConversionRateText = (
   from: WalletType,
   to: WalletType,
@@ -52,13 +46,13 @@ const ExchangeInformation: React.FC<ExchangeInformationProps> = ({
 }) => {
   return (
     <MainContainer>
-      <SwapButton
+      <Button
         icon={<SwapOutlined />}
         onClick={() => onSwap(secondary, primary)}
         type="primary"
         shape="circle"
       />
-      <RateButton
+      <Button
         loading={isLoading || (!isLoading && !conversionRate)}
         icon={<RiseOutlined />}
         type="primary"
@@ -67,7 +61,7 @@ const ExchangeInformation: React.FC<ExchangeInformationProps> = ({
       >
         {conversionRate &&
           getConversionRateText(primary, secondary, conversionRate)}
-      </RateButton>
+      </Button>
     </MainContainer>
   );
 };
