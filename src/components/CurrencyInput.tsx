@@ -91,12 +91,15 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   return (
     <InputWrapper>
       <Input
+        data-testid={`${wallet.currency}`}
+        role={'currency-input'}
         placeholder="Enter value"
         value={valueDisplay}
         onKeyDown={handleKeyDown}
         prefix={
           <CurrencyPrefix>
             <CurrencyPickerContainer
+              data-testid={`${wallet.currency}:switch-wallet`}
               onClick={(e: MouseEvent<HTMLDivElement>) => {
                 e.preventDefault();
                 e.stopPropagation();

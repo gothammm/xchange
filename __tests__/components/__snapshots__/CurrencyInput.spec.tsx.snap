@@ -16,6 +16,7 @@ exports[`CurrencyInput component simple snapshot for different wallet data 1`] =
         >
           <div
             class="sc-AxirZ icTEeK"
+            data-testid="USD:switch-wallet"
           >
             <h3
               class="ant-typography"
@@ -32,7 +33,9 @@ exports[`CurrencyInput component simple snapshot for different wallet data 1`] =
       </span>
       <input
         class="ant-input"
+        data-testid="USD"
         placeholder="Enter value"
+        role="currency-input"
         type="text"
         value="$0.60"
       />
@@ -57,6 +60,7 @@ exports[`CurrencyInput component simple snapshot for different wallet data 2`] =
         >
           <div
             class="sc-AxirZ icTEeK"
+            data-testid="GBP:switch-wallet"
           >
             <h3
               class="ant-typography"
@@ -73,7 +77,9 @@ exports[`CurrencyInput component simple snapshot for different wallet data 2`] =
       </span>
       <input
         class="ant-input"
+        data-testid="GBP"
         placeholder="Enter value"
+        role="currency-input"
         type="text"
         value="£0.60"
       />
@@ -98,6 +104,7 @@ exports[`CurrencyInput component simple snapshot for different wallet data 3`] =
         >
           <div
             class="sc-AxirZ icTEeK"
+            data-testid="EUR:switch-wallet"
           >
             <h3
               class="ant-typography"
@@ -114,7 +121,9 @@ exports[`CurrencyInput component simple snapshot for different wallet data 3`] =
       </span>
       <input
         class="ant-input"
+        data-testid="EUR"
         placeholder="Enter value"
+        role="currency-input"
         type="text"
         value="€0.60"
       />
