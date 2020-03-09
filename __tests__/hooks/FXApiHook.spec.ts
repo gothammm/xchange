@@ -4,7 +4,7 @@ import CurrencyType from '../../src/enums/CurrencyType';
 import fetch from 'jest-fetch-mock';
 
 describe(`FXApiHook`, () => {
-  test(`to trigger local storage update`, async () => {
+  test(`to validate exchange API call`, async () => {
     fetch.mockResponse(req => {
       if (req.url.includes('/latest')) {
         return Promise.resolve({
