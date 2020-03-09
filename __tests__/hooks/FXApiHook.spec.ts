@@ -34,4 +34,28 @@ describe(`FXApiHook`, () => {
       rate: 1.3,
     });
   });
+
+  test(`to validate conversion calc`, () => {
+    const { result } = renderHook(() => useFXApiHook());
+    const usdGbpConvertResult = result.current.getFXValue(
+      {
+        from: CurrencyType.USD,
+        to: CurrencyType.GBP,
+        rate: 2,
+      },
+      10
+    );
+
+    const gbpUsdConverResult = result.current.getFXValue(
+      {
+        from: CurrencyType.USD,
+        to: CurrencyType.GBP,
+        rate: 2
+      },
+      10,
+      true
+    );
+    expect(gbpUsdConverResult).toEqual(5);
+    expect(usdGbpConvertResult).toEqual(20);
+  });
 });
