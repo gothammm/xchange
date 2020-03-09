@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import CenterPageContainer from '../components/CenterPageContainer';
 import { useWallet } from '../hooks/WalletHook';
 import CurrencyInput from '../components/CurrencyInput';
