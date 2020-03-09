@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CenterPageContainer from '../components/CenterPageContainer';
 import { useWallet } from '../hooks/WalletHook';
 import CurrencyInput from '../components/CurrencyInput';
@@ -40,6 +40,16 @@ const ErrorInWallet: React.FC<{ message: string; onHomeClick: () => void }> = ({
   );
 };
 
+const makeNumberEvenOrOdd = (
+  value: number,
+  predicate: (val: number) => boolean
+) => {
+  if (value <= 0) return 0;
+  if (predicate(value)) return value;
+  const odd = value + 1;
+  return odd > 4 ? value - 2 : odd;
+};
+
 const ExchangePage: React.FC = () => {
   const { getPrimaryWallet, wallets } = useWallet();
   const { exchange } = useExchange();
@@ -55,7 +65,7 @@ const ExchangePage: React.FC = () => {
   const activeWallet = getPrimaryWallet();
   const [showWallets, setShowWallets] = useState(false);
 
-  const [hasSwapped, setHasSwapped] = useState(false);
+  const [swapCounter, setSwapCounter] = useState(0);
   const otherWallets =
     (activeWallet &&
       wallets?.filter(wallet => wallet.id !== activeWallet.id)) ||
@@ -106,42 +116,76 @@ const ExchangePage: React.FC = () => {
     setShowWallets(true);
   };
 
+  const syncFXRate = useRef<() => void>();
+
+  const defaultWalletChangeUseEffectDeps = [
+    primaryWallet.id,
+    secondaryWallet.id,
+    fx.result?.rate,
+  ];
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchFXRate(primaryWallet, secondaryWallet);
-      message.info(`Exchange rate has been refreshed`);
-    }, 10000);
+    const interval = setInterval(
+      () => syncFXRate.current && syncFXRate.current(),
+      10000
+    );
     fetchFXRate(primaryWallet, secondaryWallet);
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
+    syncFXRate.current = () => {
+      fetchFXRate(primaryWallet, secondaryWallet);
+      message.info(`Exchange rate has been refreshed`);
+    };
     fetchFXRate(primaryWallet, secondaryWallet);
   }, [secondaryWallet.id, primaryWallet.id]);
 
   useEffect(() => {
+    if (swapCounter % 2 !== 0) {
+      return;
+    }
     const from = exchangeValue.from;
     const to = exchangeValue.to;
     if (from <= 0 && to <= 0) return;
-    if (!hasSwapped) return;
     if (fx.error || !fx.result) {
       message.error(`FX Rate data is unavailable, try again.`);
       return;
     }
-    const doReverse = activeWallet.currency !== fx.result.from;
-    if (primaryWallet.id !== activeWallet.id) {
-      return setExchangeValue({
-        to: from,
-        from: fx.getFXValue(fx.result, from, doReverse),
-      });
+    if (
+      fx.result.from !== primaryWallet.currency ||
+      fx.result.to !== secondaryWallet.currency
+    ) {
+      return;
     }
-    if (primaryWallet.id === activeWallet.id) {
-      return setExchangeValue({
-        from: to,
-        to: fx.getFXValue(fx.result, to, doReverse),
-      });
+    return setExchangeValue({
+      to: from,
+      from: fx.getFXValue(fx.result, from, true),
+    });
+  }, defaultWalletChangeUseEffectDeps);
+
+  useEffect(() => {
+    if (swapCounter % 2 === 0) {
+      return;
     }
-  }, [primaryWallet.id, secondaryWallet.id]);
+    const from = exchangeValue.from;
+    const to = exchangeValue.to;
+    if (from <= 0 && to <= 0) return;
+    if (fx.error || !fx.result) {
+      message.error(`FX Rate data is unavailable, try again.`);
+      return;
+    }
+    if (
+      fx.result.from !== primaryWallet.currency ||
+      fx.result.to !== secondaryWallet.currency
+    ) {
+      return;
+    }
+    return setExchangeValue({
+      from: from,
+      to: fx.getFXValue(fx.result, from),
+    });
+  }, defaultWalletChangeUseEffectDeps);
 
   return (
     <CenterPageContainer>
@@ -173,7 +217,9 @@ const ExchangePage: React.FC = () => {
             setPrimaryWallet(newPrimary);
             setSecondaryWallet(newSecondary);
             fetchFXRate(newPrimary, newSecondary);
-            !hasSwapped && setHasSwapped(true);
+            setSwapCounter(
+              makeNumberEvenOrOdd(2, val => val % 2 === 0)
+            );
           }}
         />
         <InputContainer>
@@ -236,6 +282,9 @@ const ExchangePage: React.FC = () => {
             primaryWallet.id === wallet.id && setPrimaryWallet(secondaryWallet);
             fetchFXRate(secondaryWallet, wallet);
           }
+          setSwapCounter(
+            makeNumberEvenOrOdd(2, val => val % 2 !== 0)
+          );
           setShowWallets(false);
         }}
         show={showWallets}
