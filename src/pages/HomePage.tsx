@@ -81,7 +81,8 @@ const HomePage: React.FC = () => {
         show={showWallets}
         onClose={() => setShowWallets(false)}
         wallets={wallets}
-        text={`Available Wallets`}
+        headerText={`Available Wallets`}
+        actionText={`Make primary`}
       />
     </CenterPageContainer>
   );

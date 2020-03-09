@@ -10,6 +10,7 @@ interface CurrencyInputProps {
   wallet: WalletType;
   value: number;
   maxValue?: number;
+  prefixText?: '+' | '-';
   onChange: (value: number) => void;
   onWalletChange?: (wallet: WalletType) => void;
 }
@@ -50,6 +51,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   onChange,
   maxValue = 100000000,
   onWalletChange,
+  prefixText,
 }) => {
   const valueAbsTrunc = Math.trunc(Math.abs(value));
 
@@ -87,7 +89,13 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
     },
     [maxValue, onChange, value]
   );
-  const valueDisplay = getCurrencyDisplayString(value / 100, wallet.currency);
+  const currencyDisplayString = getCurrencyDisplayString(
+    value / 100,
+    wallet.currency
+  );
+  const valueDisplay = prefixText
+    ? `${prefixText} ${currencyDisplayString}`
+    : currencyDisplayString;
   return (
     <InputWrapper>
       <Input

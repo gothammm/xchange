@@ -10,7 +10,8 @@ interface WalletSelectProps {
   onClose: () => void;
   show: boolean;
   wallets: WalletType[];
-  text: string;
+  headerText: string;
+  actionText: string;
 }
 
 const XChangeDrawer: React.FC<DrawerProps> = styled(Drawer)`
@@ -24,11 +25,12 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
   onClose,
   wallets,
   show,
-  text,
+  headerText,
+  actionText
 }) => {
   return (
     <XChangeDrawer
-      title={text}
+      title={headerText}
       height={300}
       placement="bottom"
       closable={false}
@@ -38,6 +40,7 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
       <WalletList
         wallets={wallets || []}
         onMakeWalletPrimary={onMakeWalletPrimary}
+        actionText={actionText}
       />
     </XChangeDrawer>
   );

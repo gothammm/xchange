@@ -148,6 +148,7 @@ const ExchangePage: React.FC = () => {
       <CenterContainer>
         <InputContainer>
           <CurrencyInput
+            prefixText={'-'}
             onWalletChange={onWalletChange}
             wallet={primaryWallet}
             onChange={value => {
@@ -177,6 +178,7 @@ const ExchangePage: React.FC = () => {
         />
         <InputContainer>
           <CurrencyInput
+            prefixText={'+'}
             onWalletChange={onWalletChange}
             wallet={secondaryWallet}
             onChange={value => {
@@ -245,7 +247,8 @@ const ExchangePage: React.FC = () => {
               : { ...wallet, isPrimary: false }
           ) || []
         }
-        text={`Available Wallets / Currency`}
+        actionText={`Select`}
+        headerText={`Available Wallets / Currency`}
       />
     </CenterPageContainer>
   );

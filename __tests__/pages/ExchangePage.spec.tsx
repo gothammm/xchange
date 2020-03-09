@@ -78,7 +78,7 @@ describe(`ExchangePage component`, () => {
     fireEvent.keyDown(usdInput, { key: '0', code: 10 });
     fireEvent.keyDown(usdInput, { key: '0', code: 10 });
 
-    expect(usdInput.value).toEqual('$100.00');
+    expect(usdInput.value).toEqual('- $100.00');
 
     const allInputs: HTMLInputElement[] = (await component.findAllByRole(
       'currency-input'
@@ -88,6 +88,6 @@ describe(`ExchangePage component`, () => {
         item => item.attributes?.getNamedItem('data-testid')?.value !== 'USD'
       ) || null;
     expect(exchangeInput).toBeTruthy();
-    expect(exchangeInput?.value).toEqual('£130.00');
+    expect(exchangeInput?.value).toEqual('+ £130.00');
   });
 });
