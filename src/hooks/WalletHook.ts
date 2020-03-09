@@ -45,7 +45,7 @@ export const useWallet = () => {
   };
   return {
     updateWallet: updateWallet,
-    wallets: appContext?.wallets,
+    wallets: appContext?.wallets || [],
     makePrimary: (wallet: WalletType) => {
       const updatedWallets =
         appContext?.wallets?.reduce(

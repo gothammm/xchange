@@ -5,18 +5,12 @@ import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import XChangeButton from '../components/XChangeButton';
 import { useWallet } from '../hooks/WalletHook';
 import WalletOverview from '../components/WalletOverview';
-import { Drawer, message } from 'antd';
-import WalletList from '../components/WalletList';
-import { DrawerProps } from 'antd/lib/drawer';
 import AddMoneyModal from '../components/AddMoneyModal';
 import { useHistory } from 'react-router-dom';
 import CenterPageContainer from '../components/CenterPageContainer';
-
-const XChangeDrawer: React.FC<DrawerProps> = styled(Drawer)`
-  .ant-drawer-body {
-    padding: 0 8px;
-  }
-`;
+import WalletSelect from '../components/WalletSelect';
+import { WalletType } from '../context/AppContext';
+import { message } from 'antd';
 
 const WalletContainer = styled.div`
   margin: 3em 0;
@@ -79,22 +73,16 @@ const HomePage: React.FC = () => {
           onClick={() => history.push('/exchange')}
         />
       </ActionBarContainer>
-      <XChangeDrawer
-        title="Available Wallets"
-        height={300}
-        placement="bottom"
-        closable={false}
+      <WalletSelect
+        onWalletSelect={(wallet: WalletType) => {
+          makePrimary(wallet);
+          setShowWallets(false);
+        }}
+        show={showWallets}
         onClose={() => setShowWallets(false)}
-        visible={showWallets}
-      >
-        <WalletList
-          wallets={wallets || []}
-          onMakeWalletPrimary={wallet => {
-            makePrimary(wallet);
-            setShowWallets(false);
-          }}
-        />
-      </XChangeDrawer>
+        wallets={wallets}
+        text={`Available Wallets`}
+      />
     </CenterPageContainer>
   );
 };
