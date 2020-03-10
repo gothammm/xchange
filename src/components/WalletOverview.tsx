@@ -7,7 +7,7 @@ import { Empty, Button } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
 interface WalletOverviewProps {
-  wallet?: WalletType;
+  wallet?: WalletType | null; 
   onWalletClick: () => void;
   onWalletCreateClick: () => void;
 }

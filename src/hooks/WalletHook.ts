@@ -29,7 +29,10 @@ export const initialWalletData = [
 const updateWallet = (walletToUpdate: WalletType, wallets: WalletType[]) => {
   return wallets?.reduce((newWalletsList: WalletType[], wallet: WalletType) => {
     if (wallet.id === walletToUpdate.id) {
-      return [...newWalletsList, walletToUpdate];
+      return [
+        ...newWalletsList,
+        { ...walletToUpdate, isPrimary: wallet.isPrimary },
+      ];
     }
     return [...newWalletsList, wallet];
   }, [] as WalletType[]);

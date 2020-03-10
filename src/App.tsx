@@ -32,7 +32,7 @@ const App: React.FC = () => {
           <Route path="/" exact>
             <HomePage />
           </Route>
-          <Route path="/exchange">
+          <Route path="/exchange" exact>
             <ExchangePage />
           </Route>
           <Route

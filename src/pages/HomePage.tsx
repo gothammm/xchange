@@ -26,8 +26,8 @@ const ActionBarContainer = styled(FlexContainer)`
 `;
 
 const HomePage: React.FC = () => {
-  const { wallets, resetWallet, makePrimary, addMoneyToWallet } = useWallet();
-  const primaryWallet = wallets?.find(wallet => wallet.isPrimary);
+  const { wallets, resetWallet, makePrimary, addMoneyToWallet, getPrimaryWallet } = useWallet();
+  const primaryWallet = getPrimaryWallet();
   const [showWallets, setShowWallets] = useState(false);
   const [showAddMoney, setShowAddMoney] = useState(false);
   const history = useHistory();

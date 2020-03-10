@@ -50,7 +50,8 @@ describe(`ExchangePage component`, () => {
     const component = render(
       <MemoryRouter>
         <ExchangePage />
-      </MemoryRouter>
+      </MemoryRouter>,
+      { wrapper: appWrapper }
     );
     expect(component.asFragment()).toMatchSnapshot();
   });
