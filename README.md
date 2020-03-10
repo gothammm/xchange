@@ -12,5 +12,5 @@
 
 ## Getting started.
   - `npm install`
-  - to start server `npm run start:dev`
+  - to start server locally `npm start`
   - to run tests `npm test`
